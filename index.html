@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 450px;
+      height: 90vh;
+      background-color: #1e1e1e;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .chat-header {
+      background-color: #2a2a2a;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #007aff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .chat-title h2 {
+      font-size: 16px;
+    }
+
+    .chat-title p {
+      font-size: 12px;
+      color: #4cd964;
+    }
+
+    .messages-area {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background-color: #007aff;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background-color: #333336;
+      color: white;
+      border-bottom-left-radius: 4px;
+    }
+
+    .input-area {
+      padding: 12px;
+      background-color: #2a2a2a;
+      display: flex;
+      gap: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 20px;
+      border: none;
+      background-color: #121212;
+      color: white;
+      outline: none;
+      font-size: 15px;
+    }
+
+    button {
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 0 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="avatar">AI</div>
+      <div class="chat-title">
+        <h2>Assistant</h2>
+        <p>Online</p>
+      </div>
+    </div>
+
+    <div class="messages-area" id="messagesArea">
+      <div class="message received">Hello! Type a message below to start texting.</div>
+    </div>
+
+    <form class="input-area" id="chatForm">
+      <input type="text" id="userInput" placeholder="Type a message..." required autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const messagesArea = document.getElementById('messagesArea');
+
+    const botReplies = [
+      "Your Boyfriend Love's You betty",
+      "Hey everyone I love betty.",
+      "I agree with you!",
+      "How is Your plan for your business Going so far"
+      "That is pretty cool!"
+    ];
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // Add user message
+      addMessage(text, 'sent');
+      userInput.value = '';
+
+      // Auto reply after 1 second
+      setTimeout(() => {
+        const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        addMessage(randomReply, 'received');
+      }, 1000);
+    });
+
+    function addMessage(text, type) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', type);
+      msgDiv.textContent = text;
+      messagesArea.appendChild(msgDiv);
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
